@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/01/19 16:42:56 by plau             ###   ########.fr       */
+/*   Updated: 2023/01/19 19:37:23 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,22 @@
 # include <pthread.h>
 # include <unistd.h>
 
+typedef struct s_prg
+{
+	int	n_philo;
+	
+}	t_prg;
 
-void*	routine();
 
 /* Initialization */
+void	int_struct(t_prg *args, int ac, char **av);
+
+/* Threads and mutexes */
+void	*routine();
 void	init_thread(void);
 
 /* Helper function */
 void	error_message(char *str);
+int		error_check(int ac, char **av);
 
 #endif
