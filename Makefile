@@ -6,7 +6,7 @@
 #    By: plau <plau@student.42.kl>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/29 09:10:03 by plau              #+#    #+#              #
-#    Updated: 2023/01/19 13:46:29 by plau             ###   ########.fr        #
+#    Updated: 2023/01/19 15:35:00 by plau             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CFLAGS       	=    	-Wall -Wextra -Werror
 # CFLAGS			+=		-pthread
 # CFLAGS       	+=    	-g -fsanitize=thread
 SRCS_FILES    	=   	ph_main \
-						test
+						ph_init
 
 SRCS       		=     	$(addprefix $(SRCS_DIR), $(addsuffix .c, $(SRCS_FILES)))
 OBJS        	=     	$(addprefix $(OBJS_DIR), $(addsuffix .o, $(SRCS_FILES)))
@@ -42,4 +42,4 @@ fclean:         clean
 
 re:             fclean all
 
-.PHONY:         all libft clean fclean re
+.PHONY:         all clean fclean re
