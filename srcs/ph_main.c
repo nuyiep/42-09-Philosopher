@@ -6,13 +6,14 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:16:39 by plau              #+#    #+#             */
-/*   Updated: 2023/01/17 19:32:33 by plau             ###   ########.fr       */
+/*   Updated: 2023/01/19 13:45:33 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int main(void)
-{
-	printf("Hello world\n");
-}
+/* Start of the main function */
+// int main(void)
+// {
+// 	printf("Hello world\n");
+// }
