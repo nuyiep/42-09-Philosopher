@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/01/19 19:37:23 by plau             ###   ########.fr       */
+/*   Updated: 2023/01/30 17:24:32 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <unistd.h>
+# include <sys/time.h>
 
+/* Main struct storing av */
 typedef struct s_prg
 {
 	int	n_philo;
-	
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	n_times;
 }	t_prg;
-
 
 /* Initialization */
 void	int_struct(t_prg *args, int ac, char **av);
@@ -34,6 +38,8 @@ void	init_thread(void);
 
 /* Helper function */
 void	error_message(char *str);
-int		error_check(int ac, char **av);
+int		error_check(t_prg *prg, int ac, char **av);
+int		is_digit(char *str);
+int		ft_atoi(char *str);
 
 #endif
