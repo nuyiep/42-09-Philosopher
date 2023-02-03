@@ -1,0 +1,6 @@
+.DS_Store
+.vscode
+libft.a
+philo
+a.out
+objs

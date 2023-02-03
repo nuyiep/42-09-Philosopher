@@ -6,7 +6,7 @@
 #    By: plau <plau@student.42.kl>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/29 09:10:03 by plau              #+#    #+#              #
-#    Updated: 2023/01/30 17:10:53 by plau             ###   ########.fr        #
+#    Updated: 2023/02/02 19:31:19 by plau             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ CFLAGS       	=    	-Wall -Wextra -Werror
 SRCS_FILES    	=   	ph_main \
 						ph_init \
 						ph_libft \
+						ph_philo \
 						ph_helper \
 						ph_thread 
 

@@ -6,52 +6,62 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/01/30 17:25:02 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/02 19:29:53 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/* Print error message */
+int	print_error(char *str)
+{
+	printf("Error: %s\n", str);
+	return (1);
+}
+
 /* Return 1 if error */
 int	error_check(t_prg *prg, int ac, char **av)
 {
 	int	i;
-	
+
 	i = 1;
 	if (ac < 5)
-	{
-		error_message("Less than 5 arguments");
-		return (1);
-	}
+		return (print_error("Less than 5 arguments"));
 	if (ac > 6)
-	{
-		error_message("More than 6 arguments");
-		return (1);
-	}
-	while (av[i] != 0)
+		return (print_error("More than 6 arguments"));
+	while (i < ac)
 	{
 		if (is_digit(av[i]) == 0)
-		{
-			error_message("Invalid arguments- Not digits");
-			return (1);
-		}
+			return (print_error("Invalid arguments- Not digits"));
 		i++;
 	}
 	return (0);
 	(void)prg;
 }
 
-/* Print error message */
-void	error_message(char *str)
-{
-	printf("Error: %s\n", str);
-}
 
 /* Get time */
-long int	gettime()
+int	gettime(void)
 {
-	struct timeval tv;
+	struct timeval	time;
 
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000000) + tv.tv_usec);	
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000000) + time.tv_usec);
+}
+
+/* Print message in the format- [timestamp] [id] [msg] */
+void	print_timestamp(t_prg *prg, p_action *action, char *msg)
+{
+	int		start;
+	int		time;
+
+	time = (gettime() - action->start_time) / 1000;
+	pthread_mutex_lock(&action->check_status);
+	start = action->start_time;
+	pthread_mutex_unlock(&action->check_status);
+	pthread_mutex_lock(&action->write_data);
+	if (start)
+		printf("%d %d %s", time, action->id, msg);
+	pthread_mutex_unlock(&action->write_data);
+	(void)prg;
 }
