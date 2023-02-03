@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/02 18:06:21 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/03 17:33:35 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	int_struct(t_prg *prg, int ac, char **av)
 /* Initialize struct 2 */
 void	int_struct2(p_action *action)
 {
-	action->id = 0;
-	action->start_time = 0;
+	action->id = 1;
+	action->start_time = gettime();
 	action->last_meal = 0;
 	action->fork = 0;
 }

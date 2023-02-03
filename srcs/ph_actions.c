@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/02 19:35:10 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/03 18:20:40 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	philoeat(t_prg *prg, p_action *action)
 
 	index = action->id - 1;
 	print_timestamp(prg, action, "is eating\n");
-	pthread_mutex_lock(&action->death_check);
+	pthread_mutex_lock(&action->death_check[index]);
 	action->last_meal = gettime();
-	pthread_mutex_unlock(&action->death_check);
-	usleep(prg->time_to_eat);
+	pthread_mutex_unlock(&action->death_check[index]);
+	usleep(prg->time_to_eat * 1000);
 	pthread_mutex_lock(&action->eat_check[index]);
 	if (prg->must_eat > 0)
 		prg->must_eat--;
@@ -31,7 +31,7 @@ void	philoeat(t_prg *prg, p_action *action)
 void	philosleep_then_think(t_prg *prg, p_action *action)
 {
 	print_timestamp(prg, action, "is sleeping\n");
-	usleep(prg->time_to_sleep);
+	usleep(prg->time_to_sleep * 1000);
 	print_timestamp(prg, action, "is thinking\n");
 }
 
@@ -45,7 +45,7 @@ void	grab_fork(t_prg *prg, p_action *action)
 	action->fork++;
 }
 
-void	down_fork(t_prg *prg, p_action *action)
+void	down_fork(p_action *action)
 {
 	pthread_mutex_unlock(action->l_hand);
 	pthread_mutex_unlock(action->r_hand);
@@ -53,19 +53,16 @@ void	down_fork(t_prg *prg, p_action *action)
 
 /* Each philo will need to eat before sleep */
 /* When he wakes up, he will do some thinking before eating again */
-void	philo_action(t_prg *prg, p_action *action)
+void	*philo_action(t_prg *prg, p_action *action)
 {
-	if (action->fork = 0)
-	{
+	if ((action->fork = 0))
 		grab_fork(prg, action);
-		return ;
-	}
 	else if (action->fork == 2)
 	{
 		philoeat(prg, action);
-		down_fork(prg, action);
+		down_fork(action);
 		action->fork = 0;
 		philosleep_then_think(prg, action);
-		return ;
 	}
+	return (NULL);
 }

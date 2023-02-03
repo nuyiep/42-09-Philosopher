@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/02 19:29:53 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/03 16:16:22 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	error_check(t_prg *prg, int ac, char **av)
 	(void)prg;
 }
 
-
 /* Get time */
 int	gettime(void)
 {
@@ -64,4 +63,15 @@ void	print_timestamp(t_prg *prg, p_action *action, char *msg)
 		printf("%d %d %s", time, action->id, msg);
 	pthread_mutex_unlock(&action->write_data);
 	(void)prg;
+}
+
+/* Mutex init needs to be followed by mutex destroy */
+void	free_destroy(t_prg *prg, p_action *action)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_destroy(&action->main_lock);
+	while (i < prg->n_philo)
+		pthread_mutex_destroy(&action->forks[i++]);
 }
