@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/03 18:13:32 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/06 20:31:16 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_prg
 	int			time_to_eat;
 	int			time_to_sleep;
 	int			must_eat;
-	pthread_t	thread;
 }	t_prg;
 
 typedef	struct s_action
@@ -36,7 +35,7 @@ typedef	struct s_action
 	int				fork;
 	int				start_time;
 	int				last_meal;
-	t_prg			*philo;
+	pthread_t		*thread_id;
 	pthread_mutex_t	main_lock;
 	pthread_mutex_t	check_status;
 	pthread_mutex_t	write_data;
@@ -53,8 +52,8 @@ void	int_struct(t_prg *args, int ac, char **av);
 void	int_struct2(p_action *action);
 
 /* Philosophers */
-int	force_death(t_prg *prg, p_action *action);
-void	*philo_action(t_prg *prg, p_action *action);
+int		force_death(t_prg *prg, p_action *action);
+void	*philo_action(void	*arg);
 
 /* Threads and mutexes */
 void	create_philos(t_prg *prg, p_action *action);

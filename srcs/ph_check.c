@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/02 18:39:36 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/06 14:49:14 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	check_eat(t_prg *prg)
 	i = 0;
 	while (i < prg->n_philo)
 	{
-		pthread_mutex_lock(&prg->must_eat[i]);
-		check = prg->must_eat[i];
-		pthread_mutex_unlock(&prg->must_eat[i]);
+		pthread_mutex_lock(&prg->must_eat);
+		check = prg->must_eat;
+		pthread_mutex_unlock(&prg->must_eat);
 		if (check != 0)
 			return (0);
 		i++;

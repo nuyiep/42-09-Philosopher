@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/03 17:33:35 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/06 15:36:00 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 void	int_struct(t_prg *prg, int ac, char **av)
 {
 	prg->n_philo = ft_atoi(av[1]);
-	prg->time_to_die = ft_atoi(av[2]);
-	prg->time_to_eat = ft_atoi(av[3]);
-	prg->time_to_sleep = ft_atoi(av[4]);
+	prg->time_to_die = (ft_atoi(av[2]) * 1000);
+	prg->time_to_eat = (ft_atoi(av[3]) * 1000);
+	prg->time_to_sleep = (ft_atoi(av[4]) * 1000);
 	prg->must_eat = 0;
 	if (ac == 6)
 		prg->must_eat = ft_atoi(av[5]);
