@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:16:39 by plau              #+#    #+#             */
-/*   Updated: 2023/02/06 16:28:40 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/07 21:12:15 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@
 int	main(int ac, char **av)
 {
 	t_prg		prg;
-	p_action	action;
-
-	if (error_check(&prg, ac, av))
+	
+	if (error_check(ac, av))
 		return (1);
 	int_struct(&prg, ac, av);
-	int_struct2(&action);
-	// if (ft_atoi(av[1]) == 1)
-	// 	return (force_death(&prg, &action));
-	create_philos(&prg, &action);
+	pthread_mutex_init(&prg.action->write_mutex, NULL);
+	prg.action->start_time = gettime();
+	create_philos(&prg);
+	init_fork(&prg);
+	if (ft_atoi(av[1]) == 1)
+		return (force_death(&prg));
+	pthread_mutex_destroy(&prg.action->write_mutex);
 	return (0);
 }

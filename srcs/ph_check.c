@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/06 14:49:14 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/07 21:03:15 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_eat(t_prg *prg)
 {
 	int	i;
 	int	check;
-	
+
 	i = 0;
 	while (i < prg->n_philo)
 	{
@@ -32,7 +32,7 @@ int	check_eat(t_prg *prg)
 }
 
 /* Check if philo is dead */
-/* Return 1 if died **/
+/* Return 1 if died */
 int	check_death(t_prg *prg, p_action *action)
 {
 	if ((action->last_meal + prg->time_to_die) < gettime())

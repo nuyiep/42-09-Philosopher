@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/06 20:08:38 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/07 21:03:47 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	print_error(char *str)
 }
 
 /* Return 1 if error */
-int	error_check(t_prg *prg, int ac, char **av)
+int	error_check(int ac, char **av)
 {
 	int	i;
 
@@ -32,11 +32,10 @@ int	error_check(t_prg *prg, int ac, char **av)
 	while (i < ac)
 	{
 		if (is_digit(av[i]) == 0)
-			return (print_error("Invalid arguments- Not digits"));
+			return (print_error("Input must only be numbers"));
 		i++;
 	}
 	return (0);
-	(void)prg;
 }
 
 /* Get time */
@@ -49,29 +48,30 @@ int	gettime(void)
 }
 
 /* Print message in the format- [timestamp] [id] [msg] */
-void	print_timestamp(t_prg *prg, p_action *action, char *msg)
+void	print_timestamp(t_prg *prg, char *msg)
 {
 	int		start;
 	int		time;
 
-	time = (gettime() - action->start_time) / 1000;
-	pthread_mutex_lock(&action->check_status);
-	start = action->start_time;
-	pthread_mutex_unlock(&action->check_status);
-	pthread_mutex_lock(&action->write_data);
+	time = (gettime() - prg->action->start_time) / 1000;
+	pthread_mutex_lock(&prg->action->philo_mutex);
+	start = prg->action->start_time;
+	pthread_mutex_unlock(&prg->action->philo_mutex);
+	pthread_mutex_lock(&prg->action->philo_mutex);
 	if (start)
-		printf("%d %d %s", time, action->id, msg);
-	pthread_mutex_unlock(&action->write_data);
+		printf("%d %d %s", time, prg->action->id, msg);
+	pthread_mutex_unlock(&prg->action->philo_mutex);
 	(void)prg;
 }
 
-/* Mutex init needs to be followed by mutex destroy */
-void	free_destroy(t_prg *prg, p_action *action)
-{
-	int	i;
+/* Mutex init needs to be followed by mutex destroy or detach */
+// void	free_destroy(t_prg *prg)
+// {
+// 	int	i;
 
-	i = 0;
-	pthread_mutex_destroy(&action->main_lock);
-	while (i < prg->n_philo)
-		pthread_mutex_destroy(&action->forks[i++]);
-}
+// 	i = 0;
+// 	while (i < prg->n_philo)
+// 	{
+// 		pthread_mutex_destroy(&prg->action->fork);
+// 	}
+// }
