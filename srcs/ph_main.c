@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:16:39 by plau              #+#    #+#             */
-/*   Updated: 2023/02/07 21:12:15 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/09 14:00:38 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 /* Start of the main function */
 int	main(int ac, char **av)
 {
-	t_prg		prg;
+	t_prg		*prg;
 	
+	prg = malloc(sizeof(t_prg)); 
 	if (error_check(ac, av))
 		return (1);
-	int_struct(&prg, ac, av);
-	pthread_mutex_init(&prg.action->write_mutex, NULL);
-	prg.action->start_time = gettime();
-	create_philos(&prg);
-	init_fork(&prg);
+	int_struct(prg, ac, av);
+	// prg->action->start_time = gettime();
+	// printf("start in main : %d\n", prg->action[0].start_time);
+	init_fork(prg);
+	create_philos(prg);
 	if (ft_atoi(av[1]) == 1)
-		return (force_death(&prg));
-	pthread_mutex_destroy(&prg.action->write_mutex);
+		return (force_death(prg));
 	return (0);
 }

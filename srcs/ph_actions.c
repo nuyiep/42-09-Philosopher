@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/07 21:26:46 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/09 13:46:46 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,46 +32,46 @@ void	philosleep_then_think(t_prg *prg)
 	print_timestamp(prg, "is thinking\n");
 }
 
-void	grab_fork(t_prg *prg, t_fork *left, t_fork *right)
+void	grab_fork(p_action *action)
 {
-	pthread_mutex_lock(&left->fork_mutex);
-	print_timestamp(prg, "has taken a fork\n");
-	prg->action->fork++;
-	pthread_mutex_lock(&right->fork_mutex);
-	print_timestamp(prg, "has taken a fork\n");
-	prg->action->fork++;
+	printf("%d:", action->id);
+	printf("enter grab fork\n");
+	pthread_mutex_lock(&(action->left->fork_mutex));
+	print_timestamp(action->prg, "has taken a fork\n");
+	action->fork++;
+	pthread_mutex_lock(&(action->right->fork_mutex));
+	print_timestamp(action->prg, "has taken a fork\n");
+	action->fork++;
 }
 
 void	down_fork(t_fork *left, t_fork *right)
 {
-	pthread_mutex_unlock(&left->fork_mutex);
-	pthread_mutex_unlock(&right->fork_mutex);
+	pthread_mutex_unlock(&(left->fork_mutex));
+	pthread_mutex_unlock(&(right->fork_mutex));
 }
 
 /* Each philo will need to eat before sleep */
 /* When he wakes up, he will do some thinking before eating again */
 void	*philo_action(void	*action_in)
 {
-	// t_prg		*prg;
 	p_action	*action;
-	// t_fork		*left;
-	// t_fork		*right;
 	
-	printf("Started\n");
 	action = (p_action *)action_in;
-	printf("%d\n", action->last_meal);
-// 	left = NULL;
-// 	right = NULL;
-// 	if (prg->n_philo % 2 == 0)
-// 		usleep(2500);
-// 	if (prg->action->fork == 0)
-// 		grab_fork(prg, left, right);
-// 	else if (prg->action->fork == 2)
-// 	{
-// 		philoeat(prg);
-// 		down_fork(left, right);
-// 		prg->action->fork = 0;
-// 		philosleep_then_think(prg);
-// 	}
+	if (action->id % 2 == 0)
+		usleep(2500);
+	while ((check_if_dead(action) == 0)) //&& (check_if_(action) == 0))
+	{
+		printf("%d\n", action->fork);
+		if (action->fork == 0)
+			grab_fork(action);
+		else if (action->fork == 2)
+		{
+			philoeat(action->prg);
+			down_fork(action->left, action->right);
+			philosleep_then_think(action->prg);
+			action->fork = 0;
+		}
+	}
+	printf("Here\n");
 	return (NULL);
 }

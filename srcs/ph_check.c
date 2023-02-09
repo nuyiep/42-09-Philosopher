@@ -6,38 +6,47 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/07 21:03:15 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/09 14:03:14 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/* Check whether each philo has eaten at least x number of times */
-int	check_eat(t_prg *prg)
+/* (Option) Return 1 if each philo has eaten at least x number of times */
+int	check_if_all_ate(t_prg *prg)
 {
 	int	i;
-	int	check;
 
 	i = 0;
-	while (i < prg->n_philo)
+	while (prg->action->finish == false)
 	{
-		pthread_mutex_lock(&prg->must_eat);
-		check = prg->must_eat;
-		pthread_mutex_unlock(&prg->must_eat);
-		if (check != 0)
-			return (0);
-		i++;
+		if (prg->action->eat_check == prg->n_philo)
+			prg->action->finish = true;
 	}
 	return (1);
 }
 
-/* Check if philo is dead */
-/* Return 1 if died */
-int	check_death(t_prg *prg, p_action *action)
+/* Returns 1 if the philosopher is dead */
+int	check_if_dead(p_action *action)
 {
-	if ((action->last_meal + prg->time_to_die) < gettime())
+	// printf("finish : %d\n", action->finish);
+	while (action->finish == false)
 	{
-		printf("Philo died");
-		return (1);
+		// printf("in check\n");
+		// printf("get time: %d\n", gettime());
+		// printf("last meal: %d", action->last_meal);
+		printf("start time : %d\n", action->start_time);
+		printf("last eat : %d\n", (action->last_meal + action->prg->time_to_die));
+		if ((action->last_meal + action->prg->time_to_die) < (gettime() - action->start_time))
+		{
+			printf("die\n");
+			print_timestamp(action->prg, "died\n");
+			action->should_die = true;
+			action->finish = true;
+			return (1);
+		}
+		usleep(100);
 	}
+	printf("live\n");
+	return (0);
 }

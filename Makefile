@@ -6,7 +6,7 @@
 #    By: plau <plau@student.42.kl>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/29 09:10:03 by plau              #+#    #+#              #
-#    Updated: 2023/02/07 18:26:19 by plau             ###   ########.fr        #
+#    Updated: 2023/02/09 13:31:13 by plau             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,12 @@ CC            	=    	gcc
 RM            	=    	rm -f
 CFLAGS       	=    	-Wall -Wextra -Werror
 CFLAGS			+=		-pthread
-CFLAGS       	+=    	-g3 -fsanitize=thread
+# CFLAGS       	+=    	-g3 -fsanitize=thread
+CFLAGS       	+=    	-g3 -fsanitize=address
 SRCS_FILES    	=   	ph_main \
 						ph_init \
 						ph_libft \
+						ph_check \
 						ph_philo \
 						ph_helper \
 						ph_actions

@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/07 21:03:47 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/09 14:35:28 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,15 @@ int	gettime(void)
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000000) + time.tv_usec);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+int	current_time(t_prg *prg)
+{
+	int	time;
+
+	time = gettime() - prg->action->start_time;
+	return (time);
 }
 
 /* Print message in the format- [timestamp] [id] [msg] */
@@ -53,25 +61,29 @@ void	print_timestamp(t_prg *prg, char *msg)
 	int		start;
 	int		time;
 
-	time = (gettime() - prg->action->start_time) / 1000;
+	start = 0;
+	time = 0;
 	pthread_mutex_lock(&prg->action->philo_mutex);
 	start = prg->action->start_time;
-	pthread_mutex_unlock(&prg->action->philo_mutex);
-	pthread_mutex_lock(&prg->action->philo_mutex);
+	time = (gettime() - start);
 	if (start)
-		printf("%d %d %s", time, prg->action->id, msg);
+		printf("%d %d %s\n", time, prg->action->id, msg);
 	pthread_mutex_unlock(&prg->action->philo_mutex);
-	(void)prg;
 }
 
 /* Mutex init needs to be followed by mutex destroy or detach */
-// void	free_destroy(t_prg *prg)
-// {
-// 	int	i;
+void	free_destroy(t_prg *prg)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (i < prg->n_philo)
-// 	{
-// 		pthread_mutex_destroy(&prg->action->fork);
-// 	}
-// }
+	i = 0;
+	while (i < prg->n_philo)
+	{
+		pthread_mutex_destroy(&prg->fork[i].fork_mutex);
+		pthread_mutex_destroy(&prg->action[i].philo_mutex);
+		i++;
+	}
+	free(prg->action->left);
+	free(prg->action->right);
+	free(prg);
+}
