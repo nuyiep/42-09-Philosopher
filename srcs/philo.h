@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/09 14:35:52 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/09 18:18:24 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef	struct s_action
 	t_fork			*right;
 	struct s_prg	*prg;
 	pthread_mutex_t	philo_mutex;
-} p_action;
+} t_action;
 
 /* Main struct storing av */
 typedef struct s_prg
@@ -56,7 +56,7 @@ typedef struct s_prg
 	int			time_to_eat;
 	int			time_to_sleep;
 	int			must_eat;
-	p_action	*action;
+	t_action	*action;
 	t_fork		*fork;
 }	t_prg;
 
@@ -68,14 +68,14 @@ void	create_philos(t_prg *prg);
 /* Philosophers */
 int		force_death(t_prg *prg);
 void	*philo_action(void	*arg);
-int		check_if_dead(p_action *action);
+int		check_if_dead(t_action *action);
 
 /* Helper function */
 int		print_error(char *str);
 int		error_check(int ac, char **av);
 int		is_digit(char *str);
 int		ft_atoi(char *str);
-void	print_timestamp(t_prg *prg, char *msg);
+void	print_timestamp(t_prg *prg, char *msg, int i);
 int		gettime(void);
 int		current_time(t_prg *prg);
 void	free_destroy(t_prg *prg);

@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/09 14:03:14 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/09 17:32:21 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,10 @@ int	check_if_all_ate(t_prg *prg)
 }
 
 /* Returns 1 if the philosopher is dead */
-int	check_if_dead(p_action *action)
+int	check_if_dead(t_action *action)
 {
-	// printf("finish : %d\n", action->finish);
 	while (action->finish == false)
 	{
-		// printf("in check\n");
-		// printf("get time: %d\n", gettime());
-		// printf("last meal: %d", action->last_meal);
 		printf("start time : %d\n", action->start_time);
 		printf("last eat : %d\n", (action->last_meal + action->prg->time_to_die));
 		if ((action->last_meal + action->prg->time_to_die) < (gettime() - action->start_time))
