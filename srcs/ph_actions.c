@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/10 14:28:02 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/10 15:10:32 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	*philo_action(void	*action_in)
 		{
 			philoeat(action->prg);
 			down_fork(action);
-			printf("Before sleep and think\n");
 			philosleep_then_think(action->prg);
 			action->fork = 0;
 		}

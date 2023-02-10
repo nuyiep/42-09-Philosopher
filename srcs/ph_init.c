@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/10 13:23:45 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/10 15:09:43 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@ void	create_philos(t_prg *prg)
 		pthread_mutex_init(&prg->action[i].philo_mutex, NULL);
 		pthread_mutex_init(&prg->action[i].write_mutex, NULL);
 		pthread_create(&temp, NULL, philo_action, &(prg->action[i]));
-		pthread_detach(temp);
+		//pthread_detach(temp);
 		i++;
 	}
+	pthread_join(temp, NULL);
 }
 
 /* Initializes the fork mutexes for each philosophers */
