@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/10 13:24:25 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/10 15:15:24 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	error_check(int ac, char **av)
 	return (0);
 }
 
-/* Get time */
 int	gettime(void)
 {
 	struct timeval	time;
