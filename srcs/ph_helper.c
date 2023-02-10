@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/09 18:28:20 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/10 13:24:25 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,9 @@ int	current_time(t_prg *prg)
 /* Print message in the format- [timestamp] [id] [msg] */
 void	print_timestamp(t_prg *prg, char *msg, int i)
 {
-	pthread_mutex_lock(&prg->action->philo_mutex);
-	printf("%d	%d %s\n", current_time(prg), prg->action->id, msg);
-	pthread_mutex_unlock(&prg->action->philo_mutex);
-	(void)i;
+	pthread_mutex_lock(&prg->action->write_mutex);
+	printf("%d	%d %s\n", current_time(prg), i, msg);
+	pthread_mutex_unlock(&prg->action->write_mutex);
 }
 
 /* Mutex init needs to be followed by mutex destroy or detach */
@@ -74,6 +73,7 @@ void	free_destroy(t_prg *prg)
 	{
 		pthread_mutex_destroy(&prg->fork[i].fork_mutex);
 		pthread_mutex_destroy(&prg->action[i].philo_mutex);
+		pthread_mutex_destroy(&prg->action[i].write_mutex);
 		i++;
 	}
 	free(prg->action->left);

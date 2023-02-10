@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/09 17:32:21 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/09 18:36:31 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_if_dead(t_action *action)
 		if ((action->last_meal + action->prg->time_to_die) < (gettime() - action->start_time))
 		{
 			printf("die\n");
-			print_timestamp(action->prg, "died\n");
+			print_timestamp(action->prg, "died", action->id);
 			action->should_die = true;
 			action->finish = true;
 			return (1);

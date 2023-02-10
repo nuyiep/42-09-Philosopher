@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/09 18:18:24 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/10 13:21:40 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef	struct s_action
 	t_fork			*right;
 	struct s_prg	*prg;
 	pthread_mutex_t	philo_mutex;
+	pthread_mutex_t	write_mutex;
 } t_action;
 
 /* Main struct storing av */
