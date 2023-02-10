@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/09 18:36:31 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/10 19:26:53 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,17 @@ int	check_if_all_ate(t_prg *prg)
 /* Returns 1 if the philosopher is dead */
 int	check_if_dead(t_action *action)
 {
-	while (action->finish == false)
+	pthread_mutex_lock(&action->philo_mutex);
+	// printf("%d %d %d\n", action->last_meal, gettime(), action->prg->time_to_die);
+	if ((action->last_meal + action->prg->time_to_die) < current_time(action->prg))
 	{
-		printf("start time : %d\n", action->start_time);
-		printf("last eat : %d\n", (action->last_meal + action->prg->time_to_die));
-		if ((action->last_meal + action->prg->time_to_die) < (gettime() - action->start_time))
-		{
-			printf("die\n");
-			print_timestamp(action->prg, "died", action->id);
-			action->should_die = true;
-			action->finish = true;
-			return (1);
-		}
-		usleep(100);
+		print_timestamp(action->prg, "died", action->id);
+		action->should_die = true;
+		action->finish = true;
+		pthread_mutex_unlock(&action->philo_mutex);
+		return (1);
 	}
-	printf("live\n");
+	pthread_mutex_unlock(&action->philo_mutex);
+	usleep(100);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/10 15:09:43 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/10 19:26:00 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	int_struct(t_prg *prg, int ac, char **av)
 	if (prg == NULL)
 		return ;
 	prg->n_philo = ft_atoi(av[1]);
-	prg->time_to_die = (ft_atoi(av[2]) * 1000);
+	prg->time_to_die = ft_atoi(av[2]);
 	prg->time_to_eat = (ft_atoi(av[3]) * 1000);
 	prg->time_to_sleep = (ft_atoi(av[4]) * 1000);
 	prg->must_eat = 0;
@@ -41,14 +41,13 @@ void	create_philos(t_prg *prg)
 		prg->action[i].should_die = false;
 		prg->action[i].eat_check = 0;
 		prg->action[i].start_time = gettime();
-		prg->action[i].last_meal = prg->action->start_time;
+		prg->action[i].last_meal = current_time(prg);
 		prg->action[i].fork = 0;
 		prg->action[i].finish = false;
 		prg->action[i].prg = prg;
 		pthread_mutex_init(&prg->action[i].philo_mutex, NULL);
 		pthread_mutex_init(&prg->action[i].write_mutex, NULL);
 		pthread_create(&temp, NULL, philo_action, &(prg->action[i]));
-		//pthread_detach(temp);
 		i++;
 	}
 	pthread_join(temp, NULL);

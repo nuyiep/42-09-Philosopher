@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/10 13:21:40 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/10 19:19:59 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,23 @@ typedef struct s_prg
 }	t_prg;
 
 /* Initialization */
-void	int_struct(t_prg *prg, int ac, char **av);
-void	init_fork(t_prg *prg);
-void	create_philos(t_prg *prg);
+void			int_struct(t_prg *prg, int ac, char **av);
+void			init_fork(t_prg *prg);
+void			create_philos(t_prg *prg);
 
 /* Philosophers */
-int		force_death(t_prg *prg);
-void	*philo_action(void	*arg);
-int		check_if_dead(t_action *action);
+int				force_death(t_prg *prg);
+void			*philo_action(void	*arg);
+int				check_if_dead(t_action *action);
 
 /* Helper function */
-int		print_error(char *str);
-int		error_check(int ac, char **av);
-int		is_digit(char *str);
-int		ft_atoi(char *str);
-void	print_timestamp(t_prg *prg, char *msg, int i);
-int		gettime(void);
-int		current_time(t_prg *prg);
-void	free_destroy(t_prg *prg);
+int				print_error(char *str);
+int				error_check(int ac, char **av);
+int				is_digit(char *str);
+int				ft_atoi(char *str);
+void			print_timestamp(t_prg *prg, char *msg, int i);
+int				gettime(void);
+int				current_time(t_prg *prg);
+void			free_destroy(t_prg *prg);
 
 #endif
