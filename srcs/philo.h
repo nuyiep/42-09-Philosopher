@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/10 19:19:59 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/13 19:13:25 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef	struct s_action
 	int				start_time;
 	int				last_meal;
 	int				eat_check;
+	int				ph_ate;
 	int				should_die;
 	int				finish;
 	t_fork			*left;
@@ -67,9 +68,7 @@ void			init_fork(t_prg *prg);
 void			create_philos(t_prg *prg);
 
 /* Philosophers */
-int				force_death(t_prg *prg);
 void			*philo_action(void	*arg);
-int				check_if_dead(t_action *action);
 
 /* Helper function */
 int				print_error(char *str);
@@ -80,5 +79,9 @@ void			print_timestamp(t_prg *prg, char *msg, int i);
 int				gettime(void);
 int				current_time(t_prg *prg);
 void			free_destroy(t_prg *prg);
+
+/* Checker */
+int				check_if_all_ate(t_prg *prg);
+int				check_if_dead(t_action *action);
 
 #endif

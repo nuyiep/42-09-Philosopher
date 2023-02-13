@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:16:39 by plau              #+#    #+#             */
-/*   Updated: 2023/02/10 19:26:34 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/13 19:12:29 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,5 @@ int	main(int ac, char **av)
 	int_struct(prg, ac, av);
 	init_fork(prg);
 	create_philos(prg);
-	// if (ft_atoi(av[1]) == 1)
-	// 	return (force_death(prg));
 	return (0);
 }
