@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/13 19:13:25 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/14 18:08:56 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_prg
 	int			time_to_eat;
 	int			time_to_sleep;
 	int			must_eat;
+	int			finish;
 	t_action	*action;
 	t_fork		*fork;
 }	t_prg;
@@ -75,7 +76,7 @@ int				print_error(char *str);
 int				error_check(int ac, char **av);
 int				is_digit(char *str);
 int				ft_atoi(char *str);
-void			print_timestamp(t_prg *prg, char *msg, int i);
+int				print_timestamp(t_prg *prg, char *msg, int i);
 int				gettime(void);
 int				current_time(t_prg *prg);
 void			free_destroy(t_prg *prg);
@@ -83,5 +84,6 @@ void			free_destroy(t_prg *prg);
 /* Checker */
 int				check_if_all_ate(t_prg *prg);
 int				check_if_dead(t_action *action);
+int				check_state(t_prg *prg);
 
 #endif

@@ -6,45 +6,81 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/13 19:13:14 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/14 18:25:16 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	philoeat(t_action *action)
+int	philoeat(t_action *action)
 {
-	pthread_mutex_lock(&action->philo_mutex);
-	print_timestamp(action->prg, "is eating", action->id);
+	pthread_mutex_lock(&(action->philo_mutex));
+	if (print_timestamp(action->prg, "is eating", action->id) == 1)
+	{
+		pthread_mutex_unlock(&(action->philo_mutex));
+		return (1);	
+	}
 	action->last_meal = current_time(action->prg);
 	action->eat_check++;
-	usleep(action->prg->time_to_eat);
+	printf("CHECKING HERE3\n\n\n");
 	if (action->eat_check == action->prg->must_eat)
 	{
+		printf("CHECKING HERE\n\n\n");
 		action->ph_ate++;
-		exit(1);
 	}
+	printf("CHECKING HERE2\n\n\n");
+	usleep(action->prg->time_to_eat);
 	pthread_mutex_unlock(&action->philo_mutex);
+	return (0);
 }
 
-void	philosleep_then_think(t_action *action)
+// int	philoeat(t_action *action)
+// {
+// 	pthread_mutex_lock(&(action->philo_mutex));
+// 	if (print_timestamp(action->prg, "is eating", action->id) == 1)
+// 	{
+// 		pthread_mutex_unlock(&(action->philo_mutex));
+// 		return (1);	
+// 	}
+// 	action->last_meal = current_time(action->prg);
+// 	action->eat_check[action->id - 1]++;
+// 	printf("eat_check[id] %d\n", action->id);
+// 	printf("eat_check[id] value %d\n", action->eat_check[action->id -1]);
+// 	printf("musteat= %d\n", action->prg->must_eat);
+// 	usleep(action->prg->time_to_eat);
+// 	if (action->eat_check[action->id - 1] == action->prg->must_eat)
+// 	{
+// 		printf("PE: %d\n", action->ph_ate);	
+// 		action->ph_ate++;
+// 	}
+// 	pthread_mutex_unlock(&action->philo_mutex);
+// 	return (0);
+// }
+
+int	philosleep_then_think(t_action *action)
 {
-	print_timestamp(action->prg, "is sleeping", action->id);
+	if (print_timestamp(action->prg, "is sleeping", action->id) == 1)
+		return (1);
 	usleep(action->prg->time_to_sleep);
-	print_timestamp(action->prg, "is thinking", action->id);
+	if (print_timestamp(action->prg, "is thinking", action->id) == 1)
+		return (1);
+	return (0);
 }
 
-void	grab_fork(t_action *action)
+int	grab_fork(t_action *action)
 {
 	pthread_mutex_lock(&(action->left->fork_mutex));
-	print_timestamp(action->prg, "has taken a fork", action->id);
+	if (print_timestamp(action->prg, "has taken a fork", action->id) == 1)
+		return (1);
 	action->fork++;
 	if (action->prg->n_philo != 1)
 	{
 		pthread_mutex_lock(&(action->right->fork_mutex));
-		print_timestamp(action->prg, "has taken a fork", action->id);
+		if (print_timestamp(action->prg, "has taken a fork", action->id) == 1)
+			return (1);
 		action->fork++;
 	}
+	return (0);
 }
 
 void	down_fork(t_action *action)
@@ -60,21 +96,41 @@ void	down_fork(t_action *action)
 void	*philo_action(void	*action_in)
 {
 	t_action	*action;
-	
+
 	action = (t_action *)action_in;
 	if (action->id % 2 == 0)
 		usleep(2500);
-	while ((check_if_dead(action) == 0))
+	while (1)
 	{
-		if (check_if_all_ate(action->prg) == 1)
-			break ;
+		if (check_if_dead(action) == 1)
+		{
+			action->prg->finish = 1;
+			return (NULL);
+		}
+		if (action->prg->must_eat > 0)
+		{
+			printf("IN HERE\n\n\n\n");
+			printf("check_if_all_ate: %d\n", check_if_all_ate(action->prg));	
+			if (check_if_all_ate(action->prg) == 1)
+			{	
+				action->prg->finish = 1;
+				return (NULL);
+			}
+		}
+		//Check if philosopher has died
+		// If yes then, set finish to 1 and return
 		if (action->fork == 0)
-			grab_fork(action);
+		{
+			if (grab_fork(action) == 1)
+				return (NULL);
+		}
 		else if (action->fork == 2)
 		{
-			philoeat(action);
+			if (philoeat(action) == 1)
+				return (NULL);
 			down_fork(action);
-			philosleep_then_think(action);
+			if (philosleep_then_think(action) == 1)
+				return (NULL);
 			action->fork = 0;
 		}
 	}

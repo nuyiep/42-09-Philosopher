@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/13 19:13:00 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/14 18:09:09 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ void	int_struct(t_prg *prg, int ac, char **av)
 	prg->time_to_eat = (ft_atoi(av[3]) * 1000);
 	prg->time_to_sleep = (ft_atoi(av[4]) * 1000);
 	prg->must_eat = 0;
+	prg->finish = 0;
 	if (ac == 6)
 		prg->must_eat = ft_atoi(av[5]);
 	prg->action = malloc(sizeof(t_action) * prg->n_philo);
 }
 
 /* Create a thread for each philosopher */
+/* pthread_join is similar to a wait function for child process */
 void	create_philos(t_prg *prg)
 {
 	int			i;
@@ -59,7 +61,7 @@ void	create_philos(t_prg *prg)
 void	init_fork(t_prg *prg)
 {
 	t_fork		*forks;
-	int		i;
+	int			i;
 	
 	forks = malloc(prg->n_philo * sizeof(t_fork));
 	if (forks == NULL)

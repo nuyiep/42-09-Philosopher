@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:16:39 by plau              #+#    #+#             */
-/*   Updated: 2023/02/13 19:12:29 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/14 16:42:39 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 int	main(int ac, char **av)
 {
 	t_prg		*prg;
-	
-	prg = malloc(sizeof(t_prg)); 
+
+	prg = malloc(sizeof(t_prg));
 	if (error_check(ac, av))
 		return (1);
 	int_struct(prg, ac, av);
