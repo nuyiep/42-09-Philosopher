@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/15 21:08:10 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/15 21:25:37 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	*philo_action(void	*action_in)
 			if (check_if_all_ate(action->prg) == 1)
 			{	
 				action->prg->finish = 1;
+				if (action->eat_check < action->prg->must_eat)
+					printf("%d	%d %s\n", current_time(action->prg), action->id, "is eating");
 				return (NULL);
 			}
 		}
@@ -93,10 +95,7 @@ void	*philo_action(void	*action_in)
 		else if (action->fork == 2)
 		{
 			if (philoeat(action) == 1)
-			{
-
 				return (NULL);
-			}
 			down_fork(action);
 			if (philosleep_then_think(action) == 1)
 				return (NULL);
