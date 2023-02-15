@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/15 15:16:17 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/15 21:08:10 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ int	philoeat(t_action *action)
 		return (1);	
 	}
 	action->last_meal = current_time(action->prg);
-	action->eat_check++;
 	usleep(action->prg->time_to_eat);
-
+	action->eat_check++;
 	pthread_mutex_unlock(&action->philo_mutex);
 	return (0);
 }
