@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/15 14:59:01 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/15 15:52:02 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ typedef	struct s_action
 	int				last_meal;
 	int				eat_check;
 	int				ph_ate;
-	int				should_die;
-	int				finish;
 	t_fork			*left;
 	t_fork			*right;
 	struct s_prg	*prg;

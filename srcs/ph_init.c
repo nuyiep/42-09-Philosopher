@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/15 14:05:53 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/15 15:52:17 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ void	create_philos(t_prg *prg)
 		prg->action[i].id = i + 1;
 		prg->action[i].ph_ate = 0;
 		prg->action[i].eat_check = 0;
-		prg->action[i].should_die = false;
 		prg->action[i].start_time = gettime();
 		prg->action[i].last_meal = current_time(prg);
 		prg->action[i].fork = 0;
-		prg->action[i].finish = false;
 		prg->action[i].prg = prg;
 		pthread_mutex_init(&prg->action[i].philo_mutex, NULL);
 		pthread_mutex_init(&prg->action[i].write_mutex, NULL);

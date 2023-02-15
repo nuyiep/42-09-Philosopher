@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/15 15:01:57 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/15 15:52:04 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ int	check_if_dead(t_action *action)
 	if ((action->last_meal + action->prg->time_to_die) < current_time(action->prg))
 	{
 		print_timestamp(action->prg, "died", action->id);
-		action->should_die = true;
-		action->finish = true;
 		pthread_mutex_unlock(&action->philo_mutex);
 		return (1);
 	}
