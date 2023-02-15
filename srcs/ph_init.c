@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/14 18:09:09 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/15 14:05:53 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	init_fork(t_prg *prg)
 {
 	t_fork		*forks;
 	int			i;
-	
+
 	forks = malloc(prg->n_philo * sizeof(t_fork));
 	if (forks == NULL)
 		return ;

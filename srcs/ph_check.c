@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/14 18:20:46 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/15 15:01:57 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,20 @@
 /* (Optional) Return 1 if each philo has eaten at least x number of times */
 int	check_if_all_ate(t_prg *prg)
 {
-	printf("PE %d\n", prg->action->ph_ate);
-	if (prg->action->ph_ate == prg->n_philo)
+	int	i;
+	
+	i = 1;
+	while (i <= prg->n_philo)
 	{
-		return (1);
+		if (prg->action[i].eat_check == prg->must_eat)
+		{
+			prg->action[i].ph_ate++;
+		}
+		if (prg->action[i].ph_ate == prg->n_philo)
+		{
+			return (1);
+		}
+		i++;
 	}
 	return (0);
 }
@@ -38,30 +48,5 @@ int	check_if_dead(t_action *action)
 	}
 	pthread_mutex_unlock(&action->philo_mutex);
 	usleep(100);
-	return (0);
-}
-
-/* Check the state of the philo during the simulation */
-/* 		- Check no of times each philo must eat */
-/* & 	- Check whether died of hunger */
-int	check_state(t_prg *prg)
-{
-	int	i;
-
-	while (1)
-	{
-		i = 0;
-		while (i < prg->n_philo)
-		{
-			pthread_mutex_lock(&(prg->action->philo_mutex));
-			//check_if_all_ate(prg);
-			if (check_if_dead(prg->action) == 1)
-				return (1);
-			pthread_mutex_unlock(&(prg->action->philo_mutex));
-			if (prg->action->finish == true)
-				return (1);
-			i++;
-		}
-	}
 	return (0);
 }

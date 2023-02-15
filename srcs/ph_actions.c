@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/14 18:25:16 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/15 15:16:17 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,40 +22,11 @@ int	philoeat(t_action *action)
 	}
 	action->last_meal = current_time(action->prg);
 	action->eat_check++;
-	printf("CHECKING HERE3\n\n\n");
-	if (action->eat_check == action->prg->must_eat)
-	{
-		printf("CHECKING HERE\n\n\n");
-		action->ph_ate++;
-	}
-	printf("CHECKING HERE2\n\n\n");
 	usleep(action->prg->time_to_eat);
+
 	pthread_mutex_unlock(&action->philo_mutex);
 	return (0);
 }
-
-// int	philoeat(t_action *action)
-// {
-// 	pthread_mutex_lock(&(action->philo_mutex));
-// 	if (print_timestamp(action->prg, "is eating", action->id) == 1)
-// 	{
-// 		pthread_mutex_unlock(&(action->philo_mutex));
-// 		return (1);	
-// 	}
-// 	action->last_meal = current_time(action->prg);
-// 	action->eat_check[action->id - 1]++;
-// 	printf("eat_check[id] %d\n", action->id);
-// 	printf("eat_check[id] value %d\n", action->eat_check[action->id -1]);
-// 	printf("musteat= %d\n", action->prg->must_eat);
-// 	usleep(action->prg->time_to_eat);
-// 	if (action->eat_check[action->id - 1] == action->prg->must_eat)
-// 	{
-// 		printf("PE: %d\n", action->ph_ate);	
-// 		action->ph_ate++;
-// 	}
-// 	pthread_mutex_unlock(&action->philo_mutex);
-// 	return (0);
-// }
 
 int	philosleep_then_think(t_action *action)
 {
@@ -109,16 +80,12 @@ void	*philo_action(void	*action_in)
 		}
 		if (action->prg->must_eat > 0)
 		{
-			printf("IN HERE\n\n\n\n");
-			printf("check_if_all_ate: %d\n", check_if_all_ate(action->prg));	
 			if (check_if_all_ate(action->prg) == 1)
 			{	
 				action->prg->finish = 1;
 				return (NULL);
 			}
 		}
-		//Check if philosopher has died
-		// If yes then, set finish to 1 and return
 		if (action->fork == 0)
 		{
 			if (grab_fork(action) == 1)
@@ -127,7 +94,10 @@ void	*philo_action(void	*action_in)
 		else if (action->fork == 2)
 		{
 			if (philoeat(action) == 1)
+			{
+
 				return (NULL);
+			}
 			down_fork(action);
 			if (philosleep_then_think(action) == 1)
 				return (NULL);
