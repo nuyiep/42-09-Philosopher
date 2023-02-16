@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/16 12:11:05 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/16 15:07:16 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 
-struct s_prg;
+struct	s_prg;
 
 enum e_bool
 {
@@ -32,7 +32,7 @@ typedef struct s_fork
 	pthread_mutex_t	fork_mutex;
 }	t_fork;
 
-typedef	struct s_action
+typedef struct s_action
 {
 	int				id;
 	int				fork;
@@ -45,7 +45,7 @@ typedef	struct s_action
 	struct s_prg	*prg;
 	pthread_mutex_t	philo_mutex;
 	pthread_mutex_t	write_mutex;
-} t_action;
+}	t_action;
 
 /* Main struct storing av */
 typedef struct s_prg
@@ -82,5 +82,6 @@ void			free_destroy(t_prg *prg);
 int				check_if_all_ate(t_prg *prg);
 int				check_if_dead(t_action *action);
 int				check_state(t_prg *prg);
+int				check_status(t_action *action);
 
 #endif

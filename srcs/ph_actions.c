@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/15 21:25:37 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/16 14:11:58 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	philoeat(t_action *action)
 	if (print_timestamp(action->prg, "is eating", action->id) == 1)
 	{
 		pthread_mutex_unlock(&(action->philo_mutex));
-		return (1);	
+		return (1);
 	}
 	action->last_meal = current_time(action->prg);
 	usleep(action->prg->time_to_eat);
@@ -72,21 +72,8 @@ void	*philo_action(void	*action_in)
 		usleep(2500);
 	while (1)
 	{
-		if (check_if_dead(action) == 1)
-		{
-			action->prg->finish = 1;
+		if (check_status(action) == 1)
 			return (NULL);
-		}
-		if (action->prg->must_eat > 0)
-		{
-			if (check_if_all_ate(action->prg) == 1)
-			{	
-				action->prg->finish = 1;
-				if (action->eat_check < action->prg->must_eat)
-					printf("%d	%d %s\n", current_time(action->prg), action->id, "is eating");
-				return (NULL);
-			}
-		}
 		if (action->fork == 0)
 		{
 			if (grab_fork(action) == 1)

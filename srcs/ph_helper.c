@@ -6,37 +6,11 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/16 12:09:29 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/16 14:03:57 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-/* Print error message */
-int	print_error(char *str)
-{
-	printf("Error: %s\n", str);
-	return (1);
-}
-
-/* Return 1 if error */
-int	error_check(int ac, char **av)
-{
-	int	i;
-
-	i = 1;
-	if (ac < 5)
-		return (print_error("Less than 5 arguments"));
-	if (ac > 6)
-		return (print_error("More than 6 arguments"));
-	while (i < ac)
-	{
-		if (is_digit(av[i]) == 0)
-			return (print_error("Input must only be numbers"));
-		i++;
-	}
-	return (0);
-}
 
 /* Milisecond */
 int	gettime(void)
