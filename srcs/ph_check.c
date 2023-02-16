@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/16 14:09:13 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/16 19:01:30 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,14 @@ int	check_if_all_ate(t_prg *prg)
 	i = 1;
 	while (i <= prg->n_philo)
 	{
+		pthread_mutex_lock(&(prg->action->philo_mutex));
 		if (prg->action[i].eat_check == prg->must_eat)
 			prg->action[i].ph_ate++;
+		pthread_mutex_unlock(&(prg->action->philo_mutex));
 		if (prg->action[i].ph_ate == prg->n_philo)
+		{
 			return (1);
+		}
 		i++;
 	}
 	return (0);
