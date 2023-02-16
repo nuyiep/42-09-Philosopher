@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/15 15:52:17 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/16 13:32:09 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	create_philos(t_prg *prg)
 /* Initializes the fork mutexes for each philosophers */
 /* Right fork is their own fork */
 /* Left fork is the next philo's fork */
+/* PS: i start with zero here, hence n_philo - 1 */
 void	init_fork(t_prg *prg)
 {
 	t_fork		*forks;
@@ -68,7 +69,6 @@ void	init_fork(t_prg *prg)
 	while (i < prg->n_philo)
 	{
 		pthread_mutex_init(&(forks[i].fork_mutex), NULL);
-		forks[i].n = i + 1;
 		prg->action[i].right = &forks[i];
 		if (i != prg->n_philo - 1)
 			prg->action[i + 1].left = &forks[i];

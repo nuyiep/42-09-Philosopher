@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/14 16:54:11 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/16 12:09:29 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,7 @@ void	free_destroy(t_prg *prg)
 	}
 	free(prg->action->left);
 	free(prg->action->right);
+	free(prg->fork);
+	free(prg->action);
 	free(prg);
 }

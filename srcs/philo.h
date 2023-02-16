@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/15 15:52:02 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/16 12:11:05 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ enum e_bool
 
 typedef struct s_fork
 {
-	int				n;
 	pthread_mutex_t	fork_mutex;
 }	t_fork;
 
