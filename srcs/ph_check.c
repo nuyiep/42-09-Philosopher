@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 22:41:36 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 23:15:33 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,24 @@ int	check_if_all_ate(t_prg *prg)
 	return (0);
 }
 
-/* Returns 1 if the philosopher is dead */
+/* keep checking within the while loop if no one dies */
 // printf("%d %d %d\n", action->last_meal, gettime(), action->prg->time_to_die);
 void	*check_if_dead(void	*action_in)
 {
 	t_action	*action;
 
 	action = (t_action *)action_in;
-	while (1)
+	pthread_mutex_lock(&(action->dead_mutex));
+	while (!((current_time(action->prg) - action->last_meal)
+			>= action->prg->time_to_die))
 	{
-		pthread_mutex_lock(&(action->dead_mutex));
-		if ((current_time(action->prg) - action->last_meal)
-			>= action->prg->time_to_die)
-		{
-			print_timestamp(action->prg, "died", action->id);
-			action->prg->finish = 1;
-			pthread_mutex_unlock(&(action->dead_mutex));
-			return (NULL);
-		}	
-		ft_usleep(500);
 		pthread_mutex_unlock(&(action->dead_mutex));
-	}
+		usleep(action->prg->time_to_die / 2);
+		pthread_mutex_lock(&(action->dead_mutex));
+	}	
+	print_timestamp(action->prg, "died", action->id);
+	action->prg->finish = 1;
+	pthread_mutex_unlock(&(action->dead_mutex));
 	return (NULL);
 }
 
@@ -73,7 +70,7 @@ int	check_status(t_action *action)
 		{	
 			action->prg->finish = 1;
 			if (action->eat_check < action->prg->must_eat)
-				printf("%d	%d %s\n", current_time(action->prg),
+				printf("%d	%d %s\n", current_time(action->prg) / 1000,
 					action->id, "is eating");
 			pthread_mutex_unlock(&action->philo_mutex);
 			return (1);
