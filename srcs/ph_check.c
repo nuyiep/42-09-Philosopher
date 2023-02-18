@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 18:16:09 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 22:33:05 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,18 @@ void	*check_if_dead(void	*action_in)
 	action = (t_action *)action_in;
 	while (1)
 	{
+		pthread_mutex_lock(&(action->dead_mutex));
 		if ((current_time(action->prg) - action->last_meal)
 			>= action->prg->time_to_die)
 		{
 			print_timestamp(action->prg, "died", action->id);
 			action->prg->finish = 1;
+			pthread_mutex_unlock(&(action->dead_mutex));
 			return (NULL);
 		}	
+		ft_usleep(500);
 	}
+	pthread_mutex_unlock(&(action->dead_mutex));
 	return (NULL);
 }
 

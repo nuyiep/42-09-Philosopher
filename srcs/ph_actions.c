@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 18:12:05 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 22:07:20 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,18 @@ void	down_fork(t_action *action)
 	action->fork--;
 }
 
+int	wait_start(t_action *action)
+{
+	pthread_mutex_lock(&(action->start_mutex));
+	if (action->prg->start == 1)
+	{
+		pthread_mutex_unlock(&(action->start_mutex));
+		return (1);
+	}
+	pthread_mutex_unlock(&(action->start_mutex));
+	return (0);
+}
+
 /* Each philo will need to eat before sleep */
 /* When he wakes up, he will do some thinking before eating again */
 void	*philo_action(void	*action_in)
@@ -68,6 +80,9 @@ void	*philo_action(void	*action_in)
 	t_action	*action;
 
 	action = (t_action *)action_in;
+	while (wait_start(action) == 0)
+	{
+	}
 	if (action->id % 2 == 0)
 		ft_usleep(2500);
 	while (1)

@@ -6,26 +6,26 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 18:16:25 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 22:31:42 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/* Milisecond */
+/* Microsecond */
 int	gettime(void)
 {
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+	return ((time.tv_sec * 1000000) + time.tv_usec);
 }
 
 int	current_time(t_prg *prg)
 {
 	int	time;
 
-	time = gettime() - prg->action->start_time;
+	time = gettime() - prg->start_time;
 	return (time);
 }
 
@@ -38,7 +38,7 @@ int	print_timestamp(t_prg *prg, char *msg, int i)
 		pthread_mutex_unlock(&prg->action->write_mutex);
 		return (1);
 	}
-	printf("%d	%d %s\n", current_time(prg), i, msg);
+	printf("%d	%d %s\n", current_time(prg) / 1000, i, msg);
 	pthread_mutex_unlock(&prg->action->write_mutex);
 	return (0);
 }
@@ -49,11 +49,13 @@ void	free_destroy(t_prg *prg)
 	int	i;
 
 	i = 0;
+	pthread_mutex_destroy(&prg->action->philo_mutex);
+	pthread_mutex_destroy(&prg->action->write_mutex);
+	pthread_mutex_destroy(&prg->action->start_mutex);
+	pthread_mutex_destroy(&prg->action->dead_mutex);
 	while (i < prg->n_philo)
 	{
 		pthread_mutex_destroy(&prg->fork[i].fork_mutex);
-		pthread_mutex_destroy(&prg->action[i].philo_mutex);
-		pthread_mutex_destroy(&prg->action[i].write_mutex);
 		i++;
 	}
 	free(prg->action->left);
@@ -71,8 +73,8 @@ void	ft_usleep(int time)
 	start = gettime();
 	while (1)
 	{
-		usleep(10);
-		if (gettime() - start >= (time / 1000))
+		usleep(500);
+		if (gettime() - start >= time)
 			break ;
 	}
 }

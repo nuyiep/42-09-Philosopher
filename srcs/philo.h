@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 18:14:15 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 22:27:43 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_action
 {
 	int				id;
 	int				fork;
-	int				start_time;
 	int				last_meal;
 	int				eat_check;
 	int				ph_ate;
@@ -46,6 +45,8 @@ typedef struct s_action
 	pthread_mutex_t	philo_mutex;
 	pthread_mutex_t	write_mutex;
 	pthread_mutex_t	eat_mutex;
+	pthread_mutex_t	start_mutex;
+	pthread_mutex_t	dead_mutex;
 	pthread_t		temp;
 	pthread_t		monitor;
 }	t_action;
@@ -59,6 +60,8 @@ typedef struct s_prg
 	int			time_to_sleep;
 	int			must_eat;
 	int			finish;
+	int			start;
+	int			start_time;
 	t_action	*action;
 	t_fork		*fork;
 }	t_prg;

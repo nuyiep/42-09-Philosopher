@@ -6,7 +6,7 @@
 #    By: plau <plau@student.42.kl>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/29 09:10:03 by plau              #+#    #+#              #
-#    Updated: 2023/02/18 17:53:10 by plau             ###   ########.fr        #
+#    Updated: 2023/02/18 21:28:10 by plau             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME        	=   	philo
 CC            	=    	gcc
 RM            	=    	rm -f
 CFLAGS       	=    	-Wall -Wextra -Werror
-CFLAGS			+=		-pthread
-FLAGS       	+=    	-g3 -fsanitize=thread
+# CFLAGS			+=		-pthread
+# FLAGS       	+=    	-g3 -fsanitize=thread
 SRCS_FILES    	=   	ph_main \
 						ph_init \
 						ph_libft \

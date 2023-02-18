@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 18:21:36 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 22:27:57 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,20 @@ void	int_struct(t_prg *prg, int ac, char **av)
 	if (prg == NULL)
 		return ;
 	prg->n_philo = ft_atoi(av[1]);
-	prg->time_to_die = ft_atoi(av[2]);
+	prg->time_to_die = (ft_atoi(av[2]) * 1000);
 	prg->time_to_eat = (ft_atoi(av[3]) * 1000);
 	prg->time_to_sleep = (ft_atoi(av[4]) * 1000);
 	prg->must_eat = 0;
 	prg->finish = 0;
+	prg->start = 0;
+	prg->start_time = gettime();
 	if (ac == 6)
 		prg->must_eat = ft_atoi(av[5]);
 	prg->action = malloc(sizeof(t_action) * prg->n_philo);
+	pthread_mutex_init(&prg->action->philo_mutex, NULL);
+	pthread_mutex_init(&prg->action->write_mutex, NULL);
+	pthread_mutex_init(&prg->action->start_mutex, NULL);
+	pthread_mutex_init(&prg->action->dead_mutex, NULL);
 }
 
 /* Pthread Join */
@@ -54,18 +60,21 @@ void	create_philos(t_prg *prg)
 		prg->action[i].id = i + 1;
 		prg->action[i].ph_ate = 0;
 		prg->action[i].eat_check = 0;
-		prg->action[i].start_time = gettime();
 		prg->action[i].last_meal = current_time(prg);
 		prg->action[i].fork = 0;
 		prg->action[i].prg = prg;
-		pthread_mutex_init(&prg->action[i].philo_mutex, NULL);
-		pthread_mutex_init(&prg->action[i].write_mutex, NULL);
+		i++;
+	}
+	i = 0;
+	while (i < prg->n_philo)
+	{
 		pthread_create(&prg->action[i].temp, NULL, philo_action,
 			&(prg->action[i]));
 		pthread_create(&prg->action[i].monitor, NULL, check_if_dead,
 			&(prg->action[i]));
 		i++;
 	}
+	prg->start = 1;
 	ft_pthread_join(prg);
 }
 
