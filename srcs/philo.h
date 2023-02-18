@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 17:57:46 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 18:14:15 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ void			ft_usleep(int time);
 /* Checker */
 int				check_if_all_ate(t_prg *prg);
 void			*check_if_dead(void *action_in);
-//int			*check_if_dead(void *action_in);
-int				check_state(t_prg *prg);
 int				check_status(t_action *action);
 
 #endif

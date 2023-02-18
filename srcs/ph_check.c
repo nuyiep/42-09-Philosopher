@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 17:24:22 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 18:16:09 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,13 @@ int	check_if_all_ate(t_prg *prg)
 // printf("%d %d %d\n", action->last_meal, gettime(), action->prg->time_to_die);
 void	*check_if_dead(void	*action_in)
 {
-	t_action 	*action;
+	t_action	*action;
 
 	action = (t_action *)action_in;
 	while (1)
 	{
-		if ((current_time(action->prg) - action->last_meal) >= action->prg->time_to_die)
-		// if ((action->last_meal + action->prg->time_to_die)
-		// 	< current_time(action->prg))
+		if ((current_time(action->prg) - action->last_meal)
+			>= action->prg->time_to_die)
 		{
 			print_timestamp(action->prg, "died", action->id);
 			action->prg->finish = 1;
@@ -55,34 +54,9 @@ void	*check_if_dead(void	*action_in)
 	return (NULL);
 }
 
-// int	check_if_dead(t_action *action)
-// {
-// 	pthread_mutex_lock(&action->philo_mutex);
-// 	// printf("%d, %d\n", current_time(action->prg), action->last_meal);
-// 	if ((current_time(action->prg) - action->last_meal) >= action->prg->time_to_die)
-// 	// if ((action->last_meal + action->prg->time_to_die)
-// 	// 	< current_time(action->prg))
-// 	{
-// 		print_timestamp(action->prg, "died", action->id);
-// 		pthread_mutex_unlock(&action->philo_mutex);
-// 		return (1);
-// 	}
-// 	pthread_mutex_unlock(&action->philo_mutex);
-// 	return (0);
-// }
-
-
-
 /* Check if dead and check if all ate */
 int	check_status(t_action *action)
 {
-	// if (check_if_dead(action) == 1)
-	// {
-	// 	pthread_mutex_lock(&action->philo_mutex);
-	// 	action->prg->finish = 1;
-	// 	pthread_mutex_unlock(&action->philo_mutex);
-	// 	return (1);
-	// }
 	pthread_mutex_lock(&action->philo_mutex);
 	if (action->prg->finish == 1)
 	{

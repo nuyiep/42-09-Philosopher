@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 17:59:45 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 18:21:36 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,20 @@ void	int_struct(t_prg *prg, int ac, char **av)
 	prg->action = malloc(sizeof(t_action) * prg->n_philo);
 }
 
+/* Pthread Join */
+void	ft_pthread_join(t_prg *prg)
+{
+	int	i;
+
+	i = 0;
+	while (i < prg->n_philo)
+	{
+		pthread_join(prg->action[i].temp, NULL);
+		pthread_join(prg->action[i].monitor, NULL);
+		i++;
+	}
+}
+
 /* Create a thread for each philosopher */
 /* pthread_join is similar to a wait function for child process */
 void	create_philos(t_prg *prg)
@@ -46,17 +60,13 @@ void	create_philos(t_prg *prg)
 		prg->action[i].prg = prg;
 		pthread_mutex_init(&prg->action[i].philo_mutex, NULL);
 		pthread_mutex_init(&prg->action[i].write_mutex, NULL);
-		pthread_create(&prg->action[i].temp, NULL, philo_action, &(prg->action[i]));
-		pthread_create(&prg->action[i].monitor, NULL, check_if_dead, &(prg->action[i]));
+		pthread_create(&prg->action[i].temp, NULL, philo_action,
+			&(prg->action[i]));
+		pthread_create(&prg->action[i].monitor, NULL, check_if_dead,
+			&(prg->action[i]));
 		i++;
 	}
-	i = 0;
-	while (i < prg->n_philo)
-	{
-		pthread_join(prg->action[i].temp, NULL);
-		pthread_join(prg->action[i].monitor, NULL);
-		i++;
-	}
+	ft_pthread_join(prg);
 }
 
 /* Initializes the fork mutexes for each philosophers */
