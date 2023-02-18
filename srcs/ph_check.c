@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 11:33:02 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 17:24:22 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,48 +18,74 @@ int	check_if_all_ate(t_prg *prg)
 	int	i;
 
 	i = 1;
-	pthread_mutex_lock(&(prg->action->philo_mutex));
+	pthread_mutex_lock(&(prg->action->eat_mutex));
 	while (i <= prg->n_philo)
 	{
 		if (prg->action[i].eat_check == prg->must_eat)
 			prg->action[i].ph_ate++;
-		pthread_mutex_unlock(&(prg->action->philo_mutex));
-		pthread_mutex_lock(&(prg->action->philo_mutex));
 		if (prg->action[i].ph_ate == prg->n_philo)
 		{
-			pthread_mutex_unlock(&(prg->action->philo_mutex));
+			pthread_mutex_unlock(&(prg->action->eat_mutex));
 			return (1);
 		}
-		pthread_mutex_unlock(&(prg->action->philo_mutex));
 		i++;
 	}
+	pthread_mutex_unlock(&(prg->action->eat_mutex));
 	return (0);
 }
 
 /* Returns 1 if the philosopher is dead */
 // printf("%d %d %d\n", action->last_meal, gettime(), action->prg->time_to_die);
-int	check_if_dead(t_action *action)
+void	*check_if_dead(void	*action_in)
 {
-	pthread_mutex_lock(&action->philo_mutex);
-	if ((action->last_meal + action->prg->time_to_die)
-		< current_time(action->prg))
+	t_action 	*action;
+
+	action = (t_action *)action_in;
+	while (1)
 	{
-		print_timestamp(action->prg, "died", action->id);
-		pthread_mutex_unlock(&action->philo_mutex);
-		return (1);
+		if ((current_time(action->prg) - action->last_meal) >= action->prg->time_to_die)
+		// if ((action->last_meal + action->prg->time_to_die)
+		// 	< current_time(action->prg))
+		{
+			print_timestamp(action->prg, "died", action->id);
+			action->prg->finish = 1;
+			return (NULL);
+		}	
 	}
-	pthread_mutex_unlock(&action->philo_mutex);
-	usleep(100);
-	return (0);
+	return (NULL);
 }
+
+// int	check_if_dead(t_action *action)
+// {
+// 	pthread_mutex_lock(&action->philo_mutex);
+// 	// printf("%d, %d\n", current_time(action->prg), action->last_meal);
+// 	if ((current_time(action->prg) - action->last_meal) >= action->prg->time_to_die)
+// 	// if ((action->last_meal + action->prg->time_to_die)
+// 	// 	< current_time(action->prg))
+// 	{
+// 		print_timestamp(action->prg, "died", action->id);
+// 		pthread_mutex_unlock(&action->philo_mutex);
+// 		return (1);
+// 	}
+// 	pthread_mutex_unlock(&action->philo_mutex);
+// 	return (0);
+// }
+
+
 
 /* Check if dead and check if all ate */
 int	check_status(t_action *action)
 {
-	if (check_if_dead(action) == 1)
+	// if (check_if_dead(action) == 1)
+	// {
+	// 	pthread_mutex_lock(&action->philo_mutex);
+	// 	action->prg->finish = 1;
+	// 	pthread_mutex_unlock(&action->philo_mutex);
+	// 	return (1);
+	// }
+	pthread_mutex_lock(&action->philo_mutex);
+	if (action->prg->finish == 1)
 	{
-		pthread_mutex_lock(&action->philo_mutex);
-		action->prg->finish = 1;
 		pthread_mutex_unlock(&action->philo_mutex);
 		return (1);
 	}
@@ -67,15 +93,15 @@ int	check_status(t_action *action)
 	{
 		if (check_if_all_ate(action->prg) == 1)
 		{	
-			pthread_mutex_lock(&action->philo_mutex);
 			action->prg->finish = 1;
-			pthread_mutex_unlock(&action->philo_mutex);
 			if (action->eat_check < action->prg->must_eat)
 				printf("%d	%d %s\n", current_time(action->prg),
 					action->id, "is eating");
+			pthread_mutex_unlock(&action->philo_mutex);
 			return (1);
 		}
 	}
+	pthread_mutex_unlock(&action->philo_mutex);
 	return (0);
 }
 

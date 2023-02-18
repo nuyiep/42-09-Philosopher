@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 14:47:44 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 17:51:09 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	philoeat(t_action *action)
 		return (1);
 	}
 	action->last_meal = current_time(action->prg);
-	usleep(action->prg->time_to_eat);
+	// usleep(action->prg->time_to_eat);
+	ft_usleep(action->prg->time_to_eat);
 	action->eat_check++;
 	pthread_mutex_unlock(&action->philo_mutex);
 	return (0);
@@ -31,7 +32,8 @@ int	philosleep_then_think(t_action *action)
 {
 	if (print_timestamp(action->prg, "is sleeping", action->id) == 1)
 		return (1);
-	usleep(action->prg->time_to_sleep);
+	// usleep(action->prg->time_to_sleep);
+	ft_usleep(action->prg->time_to_sleep);
 	if (print_timestamp(action->prg, "is thinking", action->id) == 1)
 		return (1);
 	return (0);
@@ -69,7 +71,8 @@ void	*philo_action(void	*action_in)
 
 	action = (t_action *)action_in;
 	if (action->id % 2 == 0)
-		usleep(2500);
+		// usleep(2500);
+		ft_usleep(2500);
 	while (1)
 	{
 		if (check_status(action) == 1)

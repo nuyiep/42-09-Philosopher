@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/16 14:03:57 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 17:49:43 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,24 @@ void	free_destroy(t_prg *prg)
 	free(prg->fork);
 	free(prg->action);
 	free(prg);
+}
+
+/* Create own sleep time */
+void	ft_usleep(int time)
+{
+	int	start;
+	
+	start = gettime();
+	while (1)
+	{
+		usleep(10);
+		// printf("start %d\n", start);
+		// printf("gettime %d\n", gettime());
+		// printf("gettime - start: %d\n", gettime() - start);
+		if (gettime() - start >= (time / 1000))
+		{
+			// printf("time %d\n", time);
+			break ;
+		}
+	}
 }

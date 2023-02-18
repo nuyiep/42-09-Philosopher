@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 14:48:06 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 17:59:45 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	int_struct(t_prg *prg, int ac, char **av)
 void	create_philos(t_prg *prg)
 {
 	int			i;
-	pthread_t	temp;
 
 	i = 0;
 	while (i < prg->n_philo)
@@ -47,10 +46,17 @@ void	create_philos(t_prg *prg)
 		prg->action[i].prg = prg;
 		pthread_mutex_init(&prg->action[i].philo_mutex, NULL);
 		pthread_mutex_init(&prg->action[i].write_mutex, NULL);
-		pthread_create(&temp, NULL, philo_action, &(prg->action[i]));
+		pthread_create(&prg->action[i].temp, NULL, philo_action, &(prg->action[i]));
+		pthread_create(&prg->action[i].monitor, NULL, check_if_dead, &(prg->action[i]));
 		i++;
 	}
-	pthread_join(temp, NULL);
+	i = 0;
+	while (i < prg->n_philo)
+	{
+		pthread_join(prg->action[i].temp, NULL);
+		pthread_join(prg->action[i].monitor, NULL);
+		i++;
+	}
 }
 
 /* Initializes the fork mutexes for each philosophers */
