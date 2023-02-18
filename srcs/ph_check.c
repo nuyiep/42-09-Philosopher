@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 22:33:05 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 22:41:36 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	*check_if_dead(void	*action_in)
 			return (NULL);
 		}	
 		ft_usleep(500);
+		pthread_mutex_unlock(&(action->dead_mutex));
 	}
-	pthread_mutex_unlock(&(action->dead_mutex));
 	return (NULL);
 }
 
