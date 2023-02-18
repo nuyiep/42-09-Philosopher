@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/16 15:07:16 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/17 13:48:21 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_prg
 	int			time_to_sleep;
 	int			must_eat;
 	int			finish;
+	int			start;
 	t_action	*action;
 	t_fork		*fork;
 }	t_prg;

@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/16 19:01:30 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 11:33:02 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,19 @@ int	check_if_all_ate(t_prg *prg)
 	int	i;
 
 	i = 1;
+	pthread_mutex_lock(&(prg->action->philo_mutex));
 	while (i <= prg->n_philo)
 	{
-		pthread_mutex_lock(&(prg->action->philo_mutex));
 		if (prg->action[i].eat_check == prg->must_eat)
 			prg->action[i].ph_ate++;
 		pthread_mutex_unlock(&(prg->action->philo_mutex));
+		pthread_mutex_lock(&(prg->action->philo_mutex));
 		if (prg->action[i].ph_ate == prg->n_philo)
 		{
+			pthread_mutex_unlock(&(prg->action->philo_mutex));
 			return (1);
 		}
+		pthread_mutex_unlock(&(prg->action->philo_mutex));
 		i++;
 	}
 	return (0);
@@ -55,14 +58,18 @@ int	check_status(t_action *action)
 {
 	if (check_if_dead(action) == 1)
 	{
+		pthread_mutex_lock(&action->philo_mutex);
 		action->prg->finish = 1;
+		pthread_mutex_unlock(&action->philo_mutex);
 		return (1);
 	}
 	if (action->prg->must_eat > 0)
 	{
 		if (check_if_all_ate(action->prg) == 1)
 		{	
+			pthread_mutex_lock(&action->philo_mutex);
 			action->prg->finish = 1;
+			pthread_mutex_unlock(&action->philo_mutex);
 			if (action->eat_check < action->prg->must_eat)
 				printf("%d	%d %s\n", current_time(action->prg),
 					action->id, "is eating");

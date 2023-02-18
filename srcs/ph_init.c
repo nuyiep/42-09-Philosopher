@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/16 15:06:46 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/18 11:34:01 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	int_struct(t_prg *prg, int ac, char **av)
 	prg->time_to_sleep = (ft_atoi(av[4]) * 1000);
 	prg->must_eat = 0;
 	prg->finish = 0;
+	prg->start = 1;
 	if (ac == 6)
 		prg->must_eat = ft_atoi(av[5]);
 	prg->action = malloc(sizeof(t_action) * prg->n_philo);
@@ -50,6 +51,7 @@ void	create_philos(t_prg *prg)
 		pthread_create(&temp, NULL, philo_action, &(prg->action[i]));
 		i++;
 	}
+	prg->start = 0;
 	pthread_join(temp, NULL);
 }
 
