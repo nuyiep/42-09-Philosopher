@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/19 15:18:32 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/19 15:39:39 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void			create_philos(t_prg *prg);
 
 /* Philosophers */
 void			*philo_action(void	*arg);
+int				ph_action(t_action *action);
 
 /* Helper function */
 int				print_error(char *str);

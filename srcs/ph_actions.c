@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/19 15:13:28 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/19 15:39:16 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,36 +61,22 @@ void	down_fork(t_action *action)
 	action->fork--;
 }
 
-/* Each philo will need to eat before sleep */
-/* When he wakes up, he will do some thinking before eating again */
-void	*philo_action(void	*action_in)
+/* Philosopher's actions */
+int	ph_action(t_action *action)
 {
-	t_action	*action;
-
-	action = (t_action *)action_in;
-	while (wait_start(action) == 0)
+	if (action->fork == 0)
 	{
+		if (grab_fork(action) == 1)
+			return (1);
 	}
-	if (action->id % 2 == 0)
-		ft_usleep(2500);
-	while (1)
+	else if (action->fork == 2)
 	{
-		if (check_status(action) == 1)
-			return (NULL);
-		if (action->fork == 0)
-		{
-			if (grab_fork(action) == 1)
-				return (NULL);
-		}
-		else if (action->fork == 2)
-		{
-			if (philoeat(action) == 1)
-				return (NULL);
-			down_fork(action);
-			if (philosleep_then_think(action) == 1)
-				return (NULL);
-			action->fork = 0;
-		}
+		if (philoeat(action) == 1)
+			return (1);
+		down_fork(action);
+		if (philosleep_then_think(action) == 1)
+			return (1);
+		action->fork = 0;
 	}
-	return (NULL);
+	return (0);
 }
