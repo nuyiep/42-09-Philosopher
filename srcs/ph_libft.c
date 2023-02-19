@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:11:46 by plau              #+#    #+#             */
-/*   Updated: 2023/02/01 16:25:42 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/19 15:11:01 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,18 @@ int	is_digit(char *str)
 		i++;
 	}
 	return (1);
+}
+
+/* Create own sleep time */
+void	ft_usleep(int time)
+{
+	int	start;
+
+	start = gettime();
+	while (1)
+	{
+		usleep(500);
+		if (gettime() - start >= time)
+			break ;
+	}
 }

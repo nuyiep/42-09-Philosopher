@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 22:07:20 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/19 15:13:28 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,6 @@ void	down_fork(t_action *action)
 	action->fork--;
 	pthread_mutex_unlock(&(action->right->fork_mutex));
 	action->fork--;
-}
-
-int	wait_start(t_action *action)
-{
-	pthread_mutex_lock(&(action->start_mutex));
-	if (action->prg->start == 1)
-	{
-		pthread_mutex_unlock(&(action->start_mutex));
-		return (1);
-	}
-	pthread_mutex_unlock(&(action->start_mutex));
-	return (0);
 }
 
 /* Each philo will need to eat before sleep */

@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 22:27:43 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/19 15:18:32 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int				gettime(void);
 int				current_time(t_prg *prg);
 void			free_destroy(t_prg *prg);
 void			ft_usleep(int time);
+int				wait_start(t_action *action);
 
 /* Checker */
 int				check_if_all_ate(t_prg *prg);

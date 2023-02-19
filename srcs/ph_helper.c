@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/18 22:31:42 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/19 15:18:41 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,15 @@ void	free_destroy(t_prg *prg)
 	free(prg);
 }
 
-/* Create own sleep time */
-void	ft_usleep(int time)
+/* To ensure that all philo start at the same time */
+int	wait_start(t_action *action)
 {
-	int	start;
-
-	start = gettime();
-	while (1)
+	pthread_mutex_lock(&(action->start_mutex));
+	if (action->prg->start == 1)
 	{
-		usleep(500);
-		if (gettime() - start >= time)
-			break ;
+		pthread_mutex_unlock(&(action->start_mutex));
+		return (1);
 	}
+	pthread_mutex_unlock(&(action->start_mutex));
+	return (0);
 }
