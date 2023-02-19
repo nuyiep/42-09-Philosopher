@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:16:39 by plau              #+#    #+#             */
-/*   Updated: 2023/02/19 15:38:50 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/19 19:03:40 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	*philo_action(void	*action_in)
 	t_action	*action;
 
 	action = (t_action *)action_in;
-	while (wait_start(action) == 0)
-	{
-	}
+	// while (wait_start(action) == 0)
+	// {
+	// }
 	if (action->id % 2 == 0)
 		ft_usleep(2500);
 	while (1)
