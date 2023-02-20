@@ -6,27 +6,28 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/20 15:46:39 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/20 19:38:56 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/* (Optional) Return 1 if each philo has eaten at least x number of times */
+/* Return 1 if each philo has eaten at least x number of times */
 int	check_if_all_ate(t_prg *prg)
 {
+	int	ph_ate;
 	int	i;
 
 	i = 0;
+	ph_ate = 0;
 	while (i < prg->n_philo)
 	{
 		pthread_mutex_lock(&(prg->action[i].eat_mutex));
 		if (prg->action[i].eat_check == prg->must_eat)
 		{
-			pthread_mutex_unlock(&(prg->action[i].eat_mutex));
-			prg->action[i].ph_ate++;
+			ph_ate++;
 		}
-		if (prg->action[i].ph_ate == prg->n_philo)
+		if (ph_ate == prg->n_philo)
 		{
 			pthread_mutex_unlock(&(prg->action[i].eat_mutex));
 			return (1);

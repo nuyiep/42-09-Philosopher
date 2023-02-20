@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/20 15:40:39 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/20 19:35:42 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	philoeat(t_action *action)
 {
+	// print_timestamp(action->prg, "is eating", action->id);
 	if (print_timestamp(action->prg, "is eating", action->id) == 1)
 		return (1);
 	pthread_mutex_lock(&action->eat_mutex);
@@ -69,7 +70,7 @@ void	down_fork(t_action *action)
 /* Philosopher's actions */
 int	ph_action(t_action *action)
 {
-	if (action->fork == 0)
+	if (action->fork < 2)
 	{
 		if (grab_fork(action) == 1)
 		{
@@ -86,7 +87,9 @@ int	ph_action(t_action *action)
 		}
 		down_fork(action);
 		if (philosleep_then_think(action) == 1)
+		{
 			return (1);
+		}
 		action->fork = 0;
 	}
 	return (0);

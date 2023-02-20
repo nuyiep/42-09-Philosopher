@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/20 15:25:24 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/20 16:36:04 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,14 @@ void	free_destroy(t_prg *prg)
 	pthread_mutex_destroy(&prg->philo_mutex);
 	pthread_mutex_destroy(&prg->write_mutex);
 	pthread_mutex_destroy(&prg->start_mutex);
-	pthread_mutex_destroy(&prg->action->eat_mutex);
 	while (i < prg->n_philo)
 	{
 		pthread_mutex_destroy(&prg->fork[i].fork_mutex);
-		// pthread_mutex_destroy(&prg->action[i].death_mutex);
+		pthread_mutex_destroy(&prg->action[i].eat_mutex);
 		i++;
 	}
-	free(prg->action->left);
-	free(prg->action->right);
+	//free(prg->action->left);
+	//free(prg->action->right);
 	free(prg->fork);
 	free(prg->action);
 	free(prg);

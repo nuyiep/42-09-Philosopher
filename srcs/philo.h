@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/20 14:16:40 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/20 18:38:52 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,17 @@ typedef struct s_fork
 /* Start mutex- start */
 
 /* Eat mutex- eat check */
-/* Death mutex- last meal */
 typedef struct s_action
 {
 	int				id;
 	int				fork;
+	int				full;
 	int				last_meal;
 	int				eat_check;
-	int				ph_ate;
 	t_fork			*left;
 	t_fork			*right;
 	struct s_prg	*prg;
 	pthread_mutex_t	eat_mutex;
-	pthread_mutex_t	death_mutex;
 	pthread_t		temp;
 	pthread_t		monitor;
 }	t_action;
@@ -65,11 +63,12 @@ typedef struct s_prg
 	int				finish;
 	int				start;
 	int				start_time;
+	int				ph_ate;
 	t_action		*action;
 	t_fork			*fork;
-	pthread_mutex_t	start_mutex;
 	pthread_mutex_t	philo_mutex;
 	pthread_mutex_t	write_mutex;
+	pthread_mutex_t	start_mutex;
 }	t_prg;
 
 /* Initialization */
