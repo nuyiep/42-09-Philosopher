@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/20 15:28:42 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/20 15:40:39 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,9 @@
 int	philoeat(t_action *action)
 {
 	if (print_timestamp(action->prg, "is eating", action->id) == 1)
-	{
 		return (1);
-	}
-	// pthread_mutex_lock(&action[action->id - 1].death_mutex);
 	pthread_mutex_lock(&action->eat_mutex);
 	action->last_meal = current_time(action->prg);
-	// pthread_mutex_unlock(&action[action->id - 1].death_mutex);
 	pthread_mutex_unlock(&action->eat_mutex);
 	pthread_mutex_lock(&(action->eat_mutex));
 	action->eat_check++;

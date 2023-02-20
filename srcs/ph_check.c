@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/20 15:30:20 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/20 15:46:39 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ void	*check_if_dead(void	*action_in)
 int	check_status(t_action *action)
 {
 	pthread_mutex_lock(&action->prg->philo_mutex);
-	// if (action->prg->finish == 1)
-	// {
-	// 	pthread_mutex_unlock(&action->prg->philo_mutex);
-	// 	return (1);
-	// }
+	if (action->prg->finish == 1)
+	{
+		pthread_mutex_unlock(&action->prg->philo_mutex);
+		return (1);
+	}
 	if (action->prg->must_eat > 0)
 	{
 		if (check_if_all_ate(action->prg) == 1)
