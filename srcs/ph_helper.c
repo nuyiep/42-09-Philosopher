@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/19 15:18:41 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/20 15:25:24 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,16 @@ int	current_time(t_prg *prg)
 /* Print message in the format- [timestamp] [id] [msg] */
 int	print_timestamp(t_prg *prg, char *msg, int i)
 {
-	pthread_mutex_lock(&prg->action->write_mutex);
+	pthread_mutex_lock(&prg->philo_mutex);
 	if (prg->finish == 1)
 	{
-		pthread_mutex_unlock(&prg->action->write_mutex);
+		pthread_mutex_unlock(&prg->philo_mutex);
 		return (1);
 	}
+	pthread_mutex_unlock(&prg->philo_mutex);
+	pthread_mutex_lock(&prg->write_mutex);
 	printf("%d	%d %s\n", current_time(prg) / 1000, i, msg);
-	pthread_mutex_unlock(&prg->action->write_mutex);
+	pthread_mutex_unlock(&prg->write_mutex);
 	return (0);
 }
 
@@ -49,13 +51,14 @@ void	free_destroy(t_prg *prg)
 	int	i;
 
 	i = 0;
-	pthread_mutex_destroy(&prg->action->philo_mutex);
-	pthread_mutex_destroy(&prg->action->write_mutex);
-	pthread_mutex_destroy(&prg->action->start_mutex);
-	pthread_mutex_destroy(&prg->action->dead_mutex);
+	pthread_mutex_destroy(&prg->philo_mutex);
+	pthread_mutex_destroy(&prg->write_mutex);
+	pthread_mutex_destroy(&prg->start_mutex);
+	pthread_mutex_destroy(&prg->action->eat_mutex);
 	while (i < prg->n_philo)
 	{
 		pthread_mutex_destroy(&prg->fork[i].fork_mutex);
+		// pthread_mutex_destroy(&prg->action[i].death_mutex);
 		i++;
 	}
 	free(prg->action->left);
@@ -68,12 +71,12 @@ void	free_destroy(t_prg *prg)
 /* To ensure that all philo start at the same time */
 int	wait_start(t_action *action)
 {
-	pthread_mutex_lock(&(action->start_mutex));
+	pthread_mutex_lock(&(action->prg->start_mutex));
 	if (action->prg->start == 1)
 	{
-		pthread_mutex_unlock(&(action->start_mutex));
+		pthread_mutex_unlock(&(action->prg->start_mutex));
 		return (1);
 	}
-	pthread_mutex_unlock(&(action->start_mutex));
+	pthread_mutex_unlock(&(action->prg->start_mutex));
 	return (0);
 }

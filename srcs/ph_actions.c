@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/19 15:39:16 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/20 15:28:42 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 
 int	philoeat(t_action *action)
 {
-	pthread_mutex_lock(&(action->philo_mutex));
 	if (print_timestamp(action->prg, "is eating", action->id) == 1)
 	{
-		pthread_mutex_unlock(&(action->philo_mutex));
 		return (1);
 	}
+	// pthread_mutex_lock(&action[action->id - 1].death_mutex);
+	pthread_mutex_lock(&action->eat_mutex);
 	action->last_meal = current_time(action->prg);
-	ft_usleep(action->prg->time_to_eat);
+	// pthread_mutex_unlock(&action[action->id - 1].death_mutex);
+	pthread_mutex_unlock(&action->eat_mutex);
+	pthread_mutex_lock(&(action->eat_mutex));
 	action->eat_check++;
-	pthread_mutex_unlock(&action->philo_mutex);
+	pthread_mutex_unlock(&(action->eat_mutex));
+	ft_usleep(action->prg->time_to_eat);
 	return (0);
 }
 
@@ -41,13 +44,19 @@ int	grab_fork(t_action *action)
 {
 	pthread_mutex_lock(&(action->left->fork_mutex));
 	if (print_timestamp(action->prg, "has taken a fork", action->id) == 1)
+	{
+		pthread_mutex_unlock(&(action->left->fork_mutex));
 		return (1);
+	}
 	action->fork++;
 	if (action->prg->n_philo != 1)
 	{
 		pthread_mutex_lock(&(action->right->fork_mutex));
 		if (print_timestamp(action->prg, "has taken a fork", action->id) == 1)
+		{
+			pthread_mutex_unlock(&(action->right->fork_mutex));
 			return (1);
+		}
 		action->fork++;
 	}
 	return (0);
@@ -67,12 +76,18 @@ int	ph_action(t_action *action)
 	if (action->fork == 0)
 	{
 		if (grab_fork(action) == 1)
+		{
+			down_fork(action);
 			return (1);
+		}
 	}
 	else if (action->fork == 2)
 	{
 		if (philoeat(action) == 1)
+		{
+			down_fork(action);
 			return (1);
+		}
 		down_fork(action);
 		if (philosleep_then_think(action) == 1)
 			return (1);

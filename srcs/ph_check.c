@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/19 15:28:22 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/20 15:30:20 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,23 @@ int	check_if_all_ate(t_prg *prg)
 {
 	int	i;
 
-	i = 1;
-	pthread_mutex_lock(&(prg->action->eat_mutex));
-	while (i <= prg->n_philo)
+	i = 0;
+	while (i < prg->n_philo)
 	{
+		pthread_mutex_lock(&(prg->action[i].eat_mutex));
 		if (prg->action[i].eat_check == prg->must_eat)
+		{
+			pthread_mutex_unlock(&(prg->action[i].eat_mutex));
 			prg->action[i].ph_ate++;
+		}
 		if (prg->action[i].ph_ate == prg->n_philo)
 		{
-			pthread_mutex_unlock(&(prg->action->eat_mutex));
+			pthread_mutex_unlock(&(prg->action[i].eat_mutex));
 			return (1);
 		}
+		pthread_mutex_unlock(&(prg->action[i].eat_mutex));
 		i++;
 	}
-	pthread_mutex_unlock(&(prg->action->eat_mutex));
 	return (0);
 }
 
@@ -41,29 +44,31 @@ void	*check_if_dead(void	*action_in)
 	t_action	*action;
 
 	action = (t_action *)action_in;
-	pthread_mutex_lock(&(action->dead_mutex));
+	pthread_mutex_lock(&action->eat_mutex);
 	while (!((current_time(action->prg) - action->last_meal)
 			>= action->prg->time_to_die))
 	{
-		pthread_mutex_unlock(&(action->dead_mutex));
+		pthread_mutex_unlock(&action->eat_mutex);
 		usleep(action->prg->time_to_die / 2);
-		pthread_mutex_lock(&(action->dead_mutex));
-	}	
+		pthread_mutex_lock(&action->eat_mutex);
+	}
+	pthread_mutex_unlock(&action->eat_mutex);
 	print_timestamp(action->prg, "died", action->id);
+	pthread_mutex_lock(&action->prg->philo_mutex);
 	action->prg->finish = 1;
-	pthread_mutex_unlock(&(action->dead_mutex));
+	pthread_mutex_unlock(&action->prg->philo_mutex);
 	return (NULL);
 }
 
 /* Check if dead and check if all ate */
 int	check_status(t_action *action)
 {
-	pthread_mutex_lock(&action->philo_mutex);
-	if (action->prg->finish == 1)
-	{
-		pthread_mutex_unlock(&action->philo_mutex);
-		return (1);
-	}
+	pthread_mutex_lock(&action->prg->philo_mutex);
+	// if (action->prg->finish == 1)
+	// {
+	// 	pthread_mutex_unlock(&action->prg->philo_mutex);
+	// 	return (1);
+	// }
 	if (action->prg->must_eat > 0)
 	{
 		if (check_if_all_ate(action->prg) == 1)
@@ -71,11 +76,11 @@ int	check_status(t_action *action)
 			printf("%d	%d %s\n", current_time(action->prg) / 1000,
 				action->id, "is eating");
 			action->prg->finish = 1;
-			pthread_mutex_unlock(&action->philo_mutex);
+			pthread_mutex_unlock(&action->prg->philo_mutex);
 			return (1);
 		}
 	}
-	pthread_mutex_unlock(&action->philo_mutex);
+	pthread_mutex_unlock(&action->prg->philo_mutex);
 	return (0);
 }
 

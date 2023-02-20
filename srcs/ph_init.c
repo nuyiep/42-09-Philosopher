@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/19 15:18:47 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/20 15:26:44 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@ void	int_struct(t_prg *prg, int ac, char **av)
 	if (ac == 6)
 		prg->must_eat = ft_atoi(av[5]);
 	prg->action = malloc(sizeof(t_action) * prg->n_philo);
-	pthread_mutex_init(&prg->action->philo_mutex, NULL);
-	pthread_mutex_init(&prg->action->write_mutex, NULL);
-	pthread_mutex_init(&prg->action->start_mutex, NULL);
-	pthread_mutex_init(&prg->action->dead_mutex, NULL);
+	pthread_mutex_init(&prg->philo_mutex, NULL);
+	pthread_mutex_init(&prg->write_mutex, NULL);
+	pthread_mutex_init(&prg->start_mutex, NULL);
 }
 
 /* Pthread Join */
@@ -63,6 +62,7 @@ void	create_philos(t_prg *prg)
 		prg->action[i].last_meal = current_time(prg);
 		prg->action[i].fork = 0;
 		prg->action[i].prg = prg;
+		pthread_mutex_init(&prg->action[i].eat_mutex, NULL);
 		i++;
 	}
 	i = 0;
