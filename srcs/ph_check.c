@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/20 19:38:56 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/21 12:48:44 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ int	check_if_all_ate(t_prg *prg)
 	while (i < prg->n_philo)
 	{
 		pthread_mutex_lock(&(prg->action[i].eat_mutex));
-		if (prg->action[i].eat_check == prg->must_eat)
+		if (prg->action[i].eat_check >= prg->must_eat)
 		{
 			ph_ate++;
-		}
-		if (ph_ate == prg->n_philo)
-		{
-			pthread_mutex_unlock(&(prg->action[i].eat_mutex));
-			return (1);
+			if (ph_ate == prg->n_philo)
+			{
+				prg->finish = 1;
+				pthread_mutex_unlock(&(prg->action[i].eat_mutex));
+				return (1);
+			}
 		}
 		pthread_mutex_unlock(&(prg->action[i].eat_mutex));
 		i++;
@@ -45,6 +46,7 @@ void	*check_if_dead(void	*action_in)
 	t_action	*action;
 
 	action = (t_action *)action_in;
+	pthread_mutex_lock(&action->prg->monitor_mutex);
 	pthread_mutex_lock(&action->eat_mutex);
 	while (!((current_time(action->prg) - action->last_meal)
 			>= action->prg->time_to_die))
@@ -58,6 +60,7 @@ void	*check_if_dead(void	*action_in)
 	pthread_mutex_lock(&action->prg->philo_mutex);
 	action->prg->finish = 1;
 	pthread_mutex_unlock(&action->prg->philo_mutex);
+	pthread_mutex_unlock(&action->prg->monitor_mutex);
 	return (NULL);
 }
 
@@ -74,8 +77,8 @@ int	check_status(t_action *action)
 	{
 		if (check_if_all_ate(action->prg) == 1)
 		{	
-			printf("%d	%d %s\n", current_time(action->prg) / 1000,
-				action->id, "is eating");
+			// printf("final %d	%d %s\n", current_time(action->prg) / 1000,
+			// 	action->id, "is eating");
 			action->prg->finish = 1;
 			pthread_mutex_unlock(&action->prg->philo_mutex);
 			return (1);

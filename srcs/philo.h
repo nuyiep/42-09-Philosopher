@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:25:22 by plau              #+#    #+#             */
-/*   Updated: 2023/02/20 18:38:52 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/21 12:47:37 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@
 # include <sys/time.h>
 
 struct	s_prg;
-
-enum e_bool
-{
-	false,
-	true
-};
-
 typedef struct s_fork
 {
 	pthread_mutex_t	fork_mutex;
@@ -35,13 +28,11 @@ typedef struct s_fork
 /* Philo mutex- finish */
 /* Write mutex- print stamp */
 /* Start mutex- start */
-
 /* Eat mutex- eat check */
 typedef struct s_action
 {
 	int				id;
 	int				fork;
-	int				full;
 	int				last_meal;
 	int				eat_check;
 	t_fork			*left;
@@ -63,12 +54,12 @@ typedef struct s_prg
 	int				finish;
 	int				start;
 	int				start_time;
-	int				ph_ate;
 	t_action		*action;
 	t_fork			*fork;
 	pthread_mutex_t	philo_mutex;
 	pthread_mutex_t	write_mutex;
 	pthread_mutex_t	start_mutex;
+	pthread_mutex_t	monitor_mutex;
 }	t_prg;
 
 /* Initialization */
