@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:31:36 by plau              #+#    #+#             */
-/*   Updated: 2023/02/20 19:35:42 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/21 11:41:36 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	philoeat(t_action *action)
 {
-	// print_timestamp(action->prg, "is eating", action->id);
 	if (print_timestamp(action->prg, "is eating", action->id) == 1)
 		return (1);
 	pthread_mutex_lock(&action->eat_mutex);
@@ -55,6 +54,11 @@ int	grab_fork(t_action *action)
 			return (1);
 		}
 		action->fork++;
+	}
+	else
+	{
+		pthread_mutex_unlock(&(action->left->fork_mutex));
+		return (1);
 	}
 	return (0);
 }
