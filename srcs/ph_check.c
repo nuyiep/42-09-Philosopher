@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:21:49 by plau              #+#    #+#             */
-/*   Updated: 2023/02/21 12:48:44 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/21 13:56:14 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ int	check_status(t_action *action)
 	{
 		if (check_if_all_ate(action->prg) == 1)
 		{	
-			// printf("final %d	%d %s\n", current_time(action->prg) / 1000,
-			// 	action->id, "is eating");
 			action->prg->finish = 1;
 			pthread_mutex_unlock(&action->prg->philo_mutex);
 			return (1);

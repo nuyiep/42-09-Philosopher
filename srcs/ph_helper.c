@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 16:40:52 by plau              #+#    #+#             */
-/*   Updated: 2023/02/21 12:48:04 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/21 13:57:29 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	free_destroy(t_prg *prg)
 		pthread_mutex_destroy(&prg->action[i].eat_mutex);
 		i++;
 	}
-	//free(prg->action->left);
-	//free(prg->action->right);
 	free(prg->fork);
 	free(prg->action);
 	free(prg);

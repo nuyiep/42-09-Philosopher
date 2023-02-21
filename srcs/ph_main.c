@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:16:39 by plau              #+#    #+#             */
-/*   Updated: 2023/02/21 12:39:26 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/21 13:56:31 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	main(int ac, char **av)
 	init_fork(prg);
 	create_philos(prg);
 	free_destroy(prg);
-	system("leaks -q philo");
 	return (0);
 }
 
