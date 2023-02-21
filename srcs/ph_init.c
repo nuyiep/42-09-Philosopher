@@ -6,7 +6,7 @@
 /*   By: plau <plau@student.42.kl>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:15:44 by plau              #+#    #+#             */
-/*   Updated: 2023/02/21 12:47:53 by plau             ###   ########.fr       */
+/*   Updated: 2023/02/21 15:02:02 by plau             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,15 @@ void	create_philos(t_prg *prg)
 		prg->action[i].fork = 0;
 		prg->action[i].prg = prg;
 		pthread_mutex_init(&prg->action[i].eat_mutex, NULL);
-		i++;
-	}
-	i = 0;
-	while (i < prg->n_philo)
-	{
 		pthread_create(&prg->action[i].temp, NULL, philo_action,
 			&(prg->action[i]));
 		pthread_create(&prg->action[i].monitor, NULL, check_if_dead,
 			&(prg->action[i]));
 		i++;
 	}
+	pthread_mutex_lock(&(prg->start_mutex));
 	prg->start = 1;
+	pthread_mutex_unlock(&(prg->start_mutex));
 	ft_pthread_join(prg);
 }
 
